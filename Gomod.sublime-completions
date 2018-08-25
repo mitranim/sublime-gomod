@@ -1,0 +1,9 @@
+{
+  "scope": "source.gomod",
+  "completions": [
+    "exclude",
+    "module",
+    "replace",
+    "require",
+  ],
+}
