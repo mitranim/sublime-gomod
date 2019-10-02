@@ -1,0 +1,49 @@
+// SYNTAX TEST "Gosum.sublime-syntax"
+
+github.com/DATA-DOG/go-sqlmock v1.3.3 h1:CWUqKXe0s8A2z6qCgkP4Kru7wC11YoAnoupUKFDnH08=
+// <- variable.gosum
+ // <- variable.gosum
+  // <- variable.gosum
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.gosum
+//                             ^^^^^^ string.version.gosum
+//                                    ^^ entity.name.label.gosum
+//                                      ^ punctuation.separator.gosum
+//                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.gosum
+//                                                                                  ^ punctuation.separator.gosum
+
+github.com/DATA-DOG/go-sqlmock v1.3.3/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q5eFN3EC/SaM=
+// <- variable.gosum
+ // <- variable.gosum
+  // <- variable.gosum
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.gosum
+//                             ^^^^^^ string.version.gosum
+//                                   ^^^^^^^ string.gosum
+//                                           ^^ entity.name.label.gosum
+//                                             ^ punctuation.separator.gosum
+//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.gosum
+//                                                                                         ^ punctuation.separator.gosum
+
+github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af h1:pmfjZENx5imkbgOkpRUYLnmbU7UEFbjtDA2hxJ1ichM=
+// <- variable.gosum
+ // <- variable.gosum
+  // <- variable.gosum
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.gosum
+//                              ^^^^^^ string.version.gosum
+//                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.gosum
+//                                                                 ^^ entity.name.label.gosum
+//                                                                   ^ punctuation.separator.gosum
+//                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.gosum
+//                                                                                                               ^ punctuation.separator.gosum
+
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+// <- variable.gosum
+ // <- variable.gosum
+  // <- variable.gosum
+// ^^^^^^^^^^^^^^ variable.gosum
+//                ^^^^^^ string.version.gosum
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.gosum
+//                                                          ^^ entity.name.label.gosum
+//                                                            ^ punctuation.separator.gosum
+//                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.gosum
+//                                                                                                        ^ punctuation.separator.gosum
+ 
