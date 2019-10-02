@@ -1,6 +1,6 @@
 ## Overview
 
-Syntax definition for `go.mod` files for Sublime Text. `go.mod` is a manifest file for Go packages; read about it on https://golang.org/cmd/go/.
+Syntax definition for `go.mod` and `go.sum` files for Sublime Text. `go.mod` is a manifest file for Go packages; read about it on https://golang.org/cmd/go/.
 
 Related: since you're using Sublime Text with Go, consider a better Go syntax: https://github.com/Mitranim/sublime-gox.
 
@@ -12,7 +12,7 @@ Alternatively, clone this repository into Sublime's Packages folder. On MacOS, t
 
 ## Usage
 
-`*.mod` files should be automatically highlighted. Enjoy!
+`*.mod` and `*.sum` files should be automatically highlighted. Enjoy!
 
 ## Misc
 
