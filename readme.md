@@ -2,8 +2,6 @@
 
 Syntax definition for `go.mod` and `go.sum` files for Sublime Text. `go.mod` is a manifest file for Go packages; read about it on https://golang.org/cmd/go/.
 
-Related: since you're using Sublime Text with Go, consider a better Go syntax: https://github.com/Mitranim/sublime-gox.
-
 ## Installation
 
 Make sure you have [PackageControl](https://packagecontrol.io) installed, then open Command Palette → Install Package → Gomod.
