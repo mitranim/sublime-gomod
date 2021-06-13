@@ -1,56 +1,129 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
-
-# https://github.com/golang/go/tree/master/src/cmd/go/internal/modfetch
-
-file_extensions: [sum]
-scope: source.gosum
+# http://www.sublimetext.com/docs/syntax.html
+version: 2
+name: Go (Sum)
+file_extensions:
+  - [sum]
+scope: source.go.sum
 hidden: true
-
-variables:
-  ident: (?:[^\s/()]|/(?!/))+
-  semver_string: v\d+\.\d+\.\d+
-  gomod_path: \/go\.mod
-  algorithm: h\d
-  checksum: \w|\/|\+
-  version_checksum: \-\d{14}\-[a-f0-9]{12}
-
 contexts:
+  # Rule: main
   main:
-    - include: match-root
-
-
-  # The form of each line in go.sum is three fields:
-  #
-  #     <module> <version>[/go.mod] <hash>
-  #
-  # Each known module version results in two lines in the go.sum file.
-  # The first line gives the hash of the module version's file tree.
-  # The second line appends "/go.mod" to the version and gives the hash
-  # of only the module version's (possibly synthesized) go.mod file.
-  #
-  # The hash begins with an algorithm prefix of the form "h<N>:".
-  match-root:
-    - match: |
-        (?x)
-        ^
-        ({{ident}})\s+
-        ({{semver_string}})
-        ({{version_checksum}})?
-        ({{gomod_path}})?\s+
-        ({{algorithm}})
-        (\:)
-        (({{checksum}})*)
-        (=)
-        \s*
-        $
+    - match: "(?x)"
+      push: main|0
+  # Rule: main
+  main|0:
+    - match: "^"
+      set: main|1
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|1:
+    - match: '(?:[^\s/()]|/(?!/))+'
+      scope: ident.go.sum
       captures:
-        1: variable.gosum
-        2: string.version.gosum
-        3: string.gosum
-        4: string.gosum
-        5: entity.name.label.gosum
-        6: punctuation.separator.gosum
-        7: constant.language.gosum
-        9: punctuation.separator.gosum
+        1: variable.go.sum
+      set: main|2
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|10:
+    - match: "(=)"
+      set: main|11
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|11:
+    - match: '\s*'
+      set: main|12
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|12:
+    - match: "$"
+      pop: true
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|2:
+    - match: '\s+'
+      set: main|3
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|3:
+    - match: '(v(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z-]+(?:\.[\da-z-]+)*)?(?:\+[\da-z-]+(?:\.[\da-z-]+)*)?)'
+      scope: semver.go.sum
+      captures:
+        1: constant.numeric.complex.go.sum
+      set: main|4
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|4:
+    - match: '(\-(?:\d{14}\.)?\d{14}\-[a-f0-9]{12})?'
+      scope: version_checksum.go.sum
+      captures:
+        1: constant.language.go.sum
+      set: main|5
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|5:
+    - match: '(\/go\.mod)?'
+      scope: gomod_path.go.sum
+      captures:
+        1: constant.language.gosum.go.sum
+      set: main|6
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|6:
+    - match: '\s+'
+      set: main|7
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|7:
+    - match: '(h\d)'
+      scope: algorithm.go.sum
+      captures:
+        1: support.type.go.sum
+      set: main|8
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|8:
+    - match: '(\:)'
+      set: main|9
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: main
+  main|9:
+    - match: '([a-zA-Z\d+\/]{43})'
+      scope: checksum.go.sum
+      captures:
+        1: constant.language.go.sum
+      set: main|10
+    - match: '\S'
+      scope: invalid.illegal.go.sum
+      pop: true
+  # Rule: prototype
+  prototype:
+    - match: '(//+).*\n?'
+      scope: comment.line.go.sum
+      captures:
+        1: punctuation.definition.comment.go.sum

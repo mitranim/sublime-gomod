@@ -1,0 +1,34 @@
+name: Go (Sum)
+scope: source.go.sum
+scope-postfix: go.sum
+extensions: [sum]
+hidden: true
+
+prototype = ( ~comment )* ;
+
+comment = '(//+).*\n?'{comment.line, 1: punctuation.definition.comment} ;
+
+main = ( ~(
+            '(?x)'
+            '^'
+            ident
+            '\s+'
+            semver
+            version_checksum
+            gomod_path
+            '\s+'
+            algorithm
+            '(\:)'
+            checksum
+            '(=)'
+            '\s*'
+            '$'
+        )  )*
+      ;
+
+ ident = '(?:[^\s/()]|/(?!/))+' { ident, 1: variable } ;
+ semver = '(v(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z-]+(?:\.[\da-z-]+)*)?(?:\+[\da-z-]+(?:\.[\da-z-]+)*)?)' { semver, 1: constant.numeric.complex } ;
+ gomod_path = '(\/go\.mod)?' { gomod_path, 1: constant.language.gosum } ;
+ algorithm = '(h\d)' { algorithm, 1: support.type } ;
+ checksum = '([a-zA-Z\d+\/]{43})' { checksum, 1: constant.language  } ;
+ version_checksum = '(\-(?:\d{14}\.)?\d{14}\-[a-f0-9]{12})?' { version_checksum, 1: constant.language } ;
