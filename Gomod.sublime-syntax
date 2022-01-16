@@ -28,7 +28,7 @@ contexts:
           pop: true
 
   number:
-    - match: \b((?<!\/)v?([0-9]{1,})\.?)\b
+    - match: \b((?<!\/)\s*((?<!\.)v?[.]*[0-9]{1,})?(?:[-][0-9a-f]{1,}|))\b
       scope: constant.numeric.mod
 
   punctuation:
