@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # Syntax: sublimetext.com/docs/syntax.html
-# Example: research.swtch.com/vgo-module
+# Example: go.dev/ref/mod#go-mod-file
 
 name: Go (MOD)
 file_extensions: [go.mod]
@@ -11,12 +11,15 @@ first_line_match: |-
   )
 scope: source.mod
 
+variables:
+  number: '(v?[0-9][.]?){1,}(?:[+-]?[0-9a-z]){1,}'
+
 contexts:
   main:
     - include: comment-single-line
-    - include: number
-    - include: punctuation
     - include: keyword
+    - include: path
+    - include: punctuation
 
   comment-single-line:
     - match: //
@@ -26,13 +29,15 @@ contexts:
         - match: $\n?
           pop: true
 
-  number:
-    - match: '(?:([\w+-.\/]{1,}|)\s*?)((v?[0-9][.]?){1,}(?:[-]?[0-9a-f]|){1,})'
-      scope: meta.group.mod
+  keyword:
+    - match: \b(^go|module|require|exclude|replace|retract)\b
+      scope: keyword.mod
+
+  path:
+    - match: '\b(?:([\w+-.\/]{1,}|)\b\s*?)({{number}})'
       captures:
-        0: meta
         1: meta.path.mod
-        2: constant.numeric.integer.hexadecimal.mod
+        2: constant.mod
 
   punctuation:
     - match: \(
@@ -47,9 +52,3 @@ contexts:
       scope: punctuation.section.brackets.end.mod
     - match: \.
       scope: punctuation.delimiter.period.dot.mod
-
-  keyword:
-    - match: \b(module|require|exclude|replace|retract)\b
-      scope: keyword.control.import.mod
-    - match: \b^go\b
-      scope: keyword.other.mod
