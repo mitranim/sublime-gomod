@@ -14,10 +14,9 @@ scope: source.mod
 contexts:
   main:
     - include: comment-single-line
+    - include: number
     - include: punctuation
     - include: keyword
-    - include: number
-    - include: string-double
 
   comment-single-line:
     - match: //
@@ -28,28 +27,29 @@ contexts:
           pop: true
 
   number:
-    - match: \b((?<!\/)\s*((?<!\.)v?[.]*[0-9]{1,})?(?:[-][0-9a-f]{1,}|))\b
-      scope: constant.numeric.mod
+    - match: '(?:([\w+-.\/]{1,}|)\s*?)((v?[0-9][.]?){1,}(?:[-]?[0-9a-f]|){1,})'
+      scope: meta.group.mod
+      captures:
+        0: meta
+        1: meta.path.mod
+        2: constant.numeric.integer.hexadecimal.mod
 
   punctuation:
     - match: \(
       scope: punctuation.section.parens.begin.mod
     - match: \)
       scope: punctuation.section.parens.end.mod
+    - match: \,
+      scope: punctuation.delimiter.comma.mod
+    - match: \[
+      scope: punctuation.section.brackets.begin.mod
+    - match: \]
+      scope: punctuation.section.brackets.end.mod
+    - match: \.
+      scope: punctuation.delimiter.period.dot.mod
 
   keyword:
-    - match: \b(module|require|exclude|replace)\b
+    - match: \b(module|require|exclude|replace|retract)\b
       scope: keyword.control.import.mod
     - match: \b^go\b
       scope: keyword.other.mod
-
-  string-double:
-    - match: '"'
-      scope: punctuation.definition.string.begin.mod
-      push:
-        - meta_scope: string.quoted.double.mod
-        - match: ^.
-          scope: constant.character.escape.mod
-        - match: '"'
-          scope: punctuation.definition.string.end.mod
-          pop: true
