@@ -6,7 +6,6 @@
 
 file_extensions: [sum]
 scope: source.gosum
-hidden: true
 
 variables:
   ident: (?:[^\s/()]|/(?!/))+
