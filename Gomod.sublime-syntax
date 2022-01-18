@@ -1,97 +1,67 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# Syntax: sublimetext.com/docs/syntax.html
+# Example: go.dev/ref/mod#go-mod-file
 
-# https://research.swtch.com/vgo-module
-# https://github.com/golang/go/tree/master/src/cmd/go/internal/modfile
+name: Go (MOD)
+file_extensions: [go.mod]
+first_line_match: |-
+  (?xi:
+    ^(module)\s+(.*[\/]?$\n?) # mod
+  )
+scope: source.mod
 
-file_extensions: [mod]
-scope: source.gomod
-
-# Note: in Go 1.11, identifiers may include ANY non-whitespace except `//`. This
-# means they may include `()` in any quantity and order. This latter part is
-# probably an artifact of the implementation, unintuitive and likely to be
-# changed in the future. At the time of writing, no valid `go.mod` should rely
-# on this "feature", so we parse parens separately to future-proof the syntax.
 variables:
-  ident_body: (?:[^\s/()]|/(?!/))+
-  ident_terminator: '//|\(|\)|\s|$'
-  ident: '{{ident_body}}(?={{ident_terminator}})'
+  number: '(?<!\/)(?<!\.)(v?[0-9][.]?){1,}(?:[+-]?[0-9a-z]){1,}'
 
 contexts:
   main:
-    - include: match-root
+    - include: comment-single-line
+    - include: keyword
+    - include: path
+    - include: section
+    - include: punctuation
 
-  match-root:
-    - include: match-comment
-    - include: match-punctuation
-    - include: match-statement
-
-  match-nonroot:
-    - include: match-comment
-    - include: match-punctuation
-    - match: '{{ident}}'
-      scope: variable.gomod
-
-  match-comment:
-    - match: //(?:.|\s)*
-      scope: comment.gomod
-
-  match-punctuation:
-    - match: \(
-      scope: punctuation.section.parens.begin.gomod
-    - match: \)
-      scope: punctuation.section.parens.end.gomod
-
-  match-statement:
-    - match: (?:exclude|module|replace|require)(?={{ident_terminator}})
-      scope: keyword.gomod
-      push: pop-modvers-or-replacements
-    - match: '{{ident}}'
-      scope: keyword.gomod
+  comment-single-line:
+    - match: //
+      scope: punctuation.definition.comment.mod
       push:
-        - include: pop-before-eol-or-comment
-        - include: match-nonroot
+        - meta_scope: comment.line.mod
+        - match: $\n?
+          pop: true
 
-  # For code after `exclude`, `replace` or `require`:
-  #   package
-  #   package version
-  #   package [version] => package [version]
-  pop-modvers-or-replacements:
+  keyword:
+    - match: \b(go|module|require|exclude|replace|retract)\b
+      scope: keyword.mod
+
+  section:
+    - match: (\(|\[)
+      scope: punctuation.section.mod
+      push:
+        - include: path
+        - include: comment-single-line
+        - match: (\)|\])
+          scope: punctuation.section.mod
+          pop: true
+
+  path:
+    - match: '\b(?:([\w+-.\/]{1,}|)\b\s*?)({{number}})'
+      captures:
+        1: meta.path.mod
+        2: constant.mod
+
+  punctuation:
     - match: \(
-      scope: punctuation.section.parens.begin.gomod
-      set:
-        - match: \)
-          scope: punctuation.section.parens.end.gomod
-          # Note: go.mod expects only comments after a closing paren
-          set:
-            - include: match-comment
-            - include: pop-before-eol-or-comment
-        - include: match-comment
-        - include: match-modver-or-replacement
-    - include: pop-before-eol-or-comment
-    - include: match-modver-or-replacement
-
-  match-modver-or-replacement:
-    - match: (?=\))
-      pop: true
-
-    - match: =>(?={{ident_terminator}})
-      scope: keyword.operator.gomod
-
-    - match: '({{ident_body}})\s+(=>)(?={{ident_terminator}})'
-      captures:
-        1: variable.gomod
-        2: keyword.operator.gomod
-
-    - match: '({{ident_body}})\s+({{ident_body}})(?={{ident_terminator}})'
-      captures:
-        1: variable.gomod
-        2: string.version.gomod
-
-    - match: '{{ident}}'
-      scope: variable.gomod
-
-  pop-before-eol-or-comment:
-    - match: (?=//|$)
-      pop: true
+      scope: punctuation.section.parens.begin.mod
+    - match: \)
+      scope: punctuation.section.parens.end.mod
+    - match: \,
+      scope: punctuation.delimiter.comma.mod
+    - match: '=>'
+      scope: punctuation.accessor.mod
+    - match: \[
+      scope: punctuation.section.brackets.begin.mod
+    - match: \]
+      scope: punctuation.section.brackets.end.mod
+    - match: \.
+      scope: punctuation.delimiter.period.dot.mod
