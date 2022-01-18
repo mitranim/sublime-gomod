@@ -12,13 +12,14 @@ first_line_match: |-
 scope: source.mod
 
 variables:
-  number: '(v?[0-9][.]?){1,}(?:[+-]?[0-9a-z]){1,}'
+  number: '(?<!\/)(?<!\.)(v?[0-9][.]?){1,}(?:[+-]?[0-9a-z]){1,}'
 
 contexts:
   main:
     - include: comment-single-line
     - include: keyword
     - include: path
+    - include: section
     - include: punctuation
 
   comment-single-line:
@@ -30,8 +31,18 @@ contexts:
           pop: true
 
   keyword:
-    - match: \b(^go|module|require|exclude|replace|retract)\b
+    - match: \b(go|module|require|exclude|replace|retract)\b
       scope: keyword.mod
+
+  section:
+    - match: (\(|\[)
+      scope: punctuation.section.mod
+      push:
+        - include: path
+        - include: comment-single-line
+        - match: (\)|\])
+          scope: punctuation.section.mod
+          pop: true
 
   path:
     - match: '\b(?:([\w+-.\/]{1,}|)\b\s*?)({{number}})'
@@ -46,6 +57,8 @@ contexts:
       scope: punctuation.section.parens.end.mod
     - match: \,
       scope: punctuation.delimiter.comma.mod
+    - match: '=>'
+      scope: punctuation.accessor.mod
     - match: \[
       scope: punctuation.section.brackets.begin.mod
     - match: \]
