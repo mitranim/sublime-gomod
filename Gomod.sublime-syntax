@@ -5,7 +5,7 @@
 # https://research.swtch.com/vgo-module
 # https://github.com/golang/go/tree/master/src/cmd/go/internal/modfile
 
-file_extensions: [mod]
+file_extensions: [go.mod, go.work]
 scope: source.gomod
 
 # Note: in Go 1.11, identifiers may include ANY non-whitespace except `//`. This

@@ -4,7 +4,7 @@
 
 # https://github.com/golang/go/tree/master/src/cmd/go/internal/modfetch
 
-file_extensions: [sum]
+file_extensions: [go.sum]
 scope: source.gosum
 
 variables:
