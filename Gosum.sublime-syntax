@@ -9,17 +9,12 @@ scope: source.gosum
 
 variables:
   ident: (?:[^\s/()]|/(?!/))+
-  semver_string: v\d+\.\d+\.\d+
-  gomod_path: \/go\.mod
-  algorithm: h\d
-  checksum: \w|\/|\+
-  version_checksum: \-\d{14}\-[a-f0-9]{12}
+  semver: v\d+\.\d+\.\d+
+  version_checksum: '[^\s/]+'
+  checksum: '\S+'
+  algorithm: \w+
 
 contexts:
-  main:
-    - include: match-root
-
-
   # The form of each line in go.sum is three fields:
   #
   #     <module> <version>[/go.mod] <hash>
@@ -30,26 +25,34 @@ contexts:
   # of only the module version's (possibly synthesized) go.mod file.
   #
   # The hash begins with an algorithm prefix of the form "h<N>:".
-  match-root:
-    - match: |
-        (?x)
-        ^
-        ({{ident}})\s+
-        ({{semver_string}})
-        ({{version_checksum}})?
-        ({{gomod_path}})?\s+
-        ({{algorithm}})
-        (\:)
-        (({{checksum}})*)
-        (=)
-        \s*
-        $
+  main:
+    - include: module-match
+
+  eol-pop:
+    - match: $
+      pop: true
+
+  module-match:
+    - match: \S+
+      scope: variable.gosum
+      set: version-match
+
+  version-match:
+    - include: eol-pop
+    - match: ({{semver}})(?:([+-])({{version_checksum}}))?(?:(/)({{ident}}))?
       captures:
-        1: variable.gosum
-        2: string.version.gosum
-        3: string.gosum
-        4: string.gosum
-        5: entity.name.label.gosum
-        6: punctuation.separator.gosum
-        7: constant.language.gosum
-        9: punctuation.separator.gosum
+        1: string.version.gosum
+        2: punctuation.separator.gosum
+        3: string.checksum.gosum
+        4: punctuation.separator.gosum
+        5: variable.gosum
+    - match: (?=\S)
+      set: checksum-match
+
+  checksum-match:
+    - include: eol-pop
+    - match: ({{algorithm}})(:)({{checksum}})
+      captures:
+        1: entity.name.label.gosum
+        2: punctuation.separator.gosum
+        3: constant.language.gosum

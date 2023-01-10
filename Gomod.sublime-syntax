@@ -20,44 +20,41 @@ variables:
 
 contexts:
   main:
-    - include: match-root
+    - include: comment-match
+    - include: punctuation-match
+    - include: statement-match
 
-  match-root:
-    - include: match-comment
-    - include: match-punctuation
-    - include: match-statement
-
-  match-nonroot:
-    - include: match-comment
-    - include: match-punctuation
+  nonroot-match:
+    - include: comment-match
+    - include: punctuation-match
     - match: '{{ident}}'
       scope: variable.gomod
 
-  match-comment:
+  comment-match:
     - match: //(?:.|\s)*
       scope: comment.gomod
 
-  match-punctuation:
+  punctuation-match:
     - match: \(
       scope: punctuation.section.parens.begin.gomod
     - match: \)
       scope: punctuation.section.parens.end.gomod
 
-  match-statement:
+  statement-match:
     - match: (?:exclude|module|replace|require)(?={{ident_terminator}})
       scope: keyword.gomod
-      push: pop-modvers-or-replacements
+      push: modvers-or-replacements-pop
     - match: '{{ident}}'
       scope: keyword.gomod
       push:
-        - include: pop-before-eol-or-comment
-        - include: match-nonroot
+        - include: before-eol-or-comment-pop
+        - include: nonroot-match
 
   # For code after `exclude`, `replace` or `require`:
   #   package
   #   package version
   #   package [version] => package [version]
-  pop-modvers-or-replacements:
+  modvers-or-replacements-pop:
     - match: \(
       scope: punctuation.section.parens.begin.gomod
       set:
@@ -65,14 +62,14 @@ contexts:
           scope: punctuation.section.parens.end.gomod
           # Note: go.mod expects only comments after a closing paren
           set:
-            - include: match-comment
-            - include: pop-before-eol-or-comment
-        - include: match-comment
-        - include: match-modver-or-replacement
-    - include: pop-before-eol-or-comment
-    - include: match-modver-or-replacement
+            - include: comment-match
+            - include: before-eol-or-comment-pop
+        - include: comment-match
+        - include: modver-or-replacement-match
+    - include: before-eol-or-comment-pop
+    - include: modver-or-replacement-match
 
-  match-modver-or-replacement:
+  modver-or-replacement-match:
     - match: (?=\))
       pop: true
 
@@ -92,6 +89,6 @@ contexts:
     - match: '{{ident}}'
       scope: variable.gomod
 
-  pop-before-eol-or-comment:
+  before-eol-or-comment-pop:
     - match: (?=//|$)
       pop: true
