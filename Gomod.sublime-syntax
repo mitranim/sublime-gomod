@@ -31,8 +31,10 @@ contexts:
       scope: variable.gomod
 
   comment-match:
-    - match: //(?:.|\s)*
-      scope: comment.gomod
+    - match: (//)(?:.|\s)*
+      scope: comment.line.gomod
+      captures:
+        1: punctuation.definition.comment.gomod
 
   punctuation-match:
     - match: \(

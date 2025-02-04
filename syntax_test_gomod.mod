@@ -1,7 +1,8 @@
 // SYNTAX TEST "Gomod.sublime-syntax"
 
     // comment
-//  ^^^^^^^^^^^ comment.gomod
+//  ^^^^^^^^^^ comment.line.gomod
+//  ^^ punctuation.definition.comment.gomod
 
 
 
