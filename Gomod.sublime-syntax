@@ -43,7 +43,7 @@ contexts:
       scope: punctuation.section.parens.end.gomod
 
   statement-match:
-    - match: (?:exclude|module|replace|require)(?={{ident_terminator}})
+    - match: (?:exclude|module|replace|require|tool)(?={{ident_terminator}})
       scope: keyword.gomod
       push: modvers-or-replacements-pop
     - match: '{{ident}}'
@@ -52,7 +52,7 @@ contexts:
         - include: before-eol-or-comment-pop
         - include: nonroot-match
 
-  # For code after `exclude`, `replace` or `require`:
+  # For code after `exclude`, `replace`, `require` or `tool`:
   #   package
   #   package version
   #   package [version] => package [version]
