@@ -241,3 +241,42 @@
     )//comment
 //  ^ punctuation.section.parens.end.gomod
 //   ^^^^^^^^^^ comment.gomod
+
+    tool ident//comment
+//  ^^^^^^^ keyword.gomod
+//          ^^^^^ variable.gomod
+//               ^^^^^^^^^^ comment.gomod
+
+    tool ident version//comment
+//  ^^^^^^^ keyword.gomod
+//          ^^^^^ variable.gomod
+//                ^^^^^^^ string.version.gomod
+//                       ^^^^^^^^^^ comment.gomod
+
+    tool(ident version)//comment
+//  ^^^^^^^ keyword.gomod
+//         ^ punctuation.section.parens.begin.gomod
+//          ^^^^^ variable.gomod
+//                ^^^^^^^ string.version.gomod
+//                       ^ punctuation.section.parens.end.gomod
+//                        ^^^^^^^^^^ comment.gomod
+
+    tool (//comment
+//  ^^^^^^^ keyword.gomod
+//          ^ punctuation.section.parens.begin.gomod
+//           ^^^^^^^^^^ comment.gomod
+        ident
+//      ^^^^^ variable.gomod
+        ident version
+//      ^^^^^ variable.gomod
+//            ^^^^^^^ string.version.gomod
+        ident//comment
+//      ^^^^^ variable.gomod
+//           ^^^^^^^^^^ comment.gomod
+        ident version//comment
+//      ^^^^^ variable.gomod
+//            ^^^^^^^ string.version.gomod
+//                   ^^^^^^^^^^ comment.gomod
+    )//comment
+//  ^ punctuation.section.parens.end.gomod
+//   ^^^^^^^^^^ comment.gomod
