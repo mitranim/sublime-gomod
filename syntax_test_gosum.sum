@@ -9,7 +9,6 @@ github.com/DATA-DOG/go-sqlmock v1.3.3 h1:CWUqKXe0s8A2z6qCgkP4Kru7wC11YoAnoupUKFD
 //                                    ^^ entity.name.label.gosum
 //                                      ^ punctuation.separator.gosum
 //                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.gosum
-//                                                                                  ^ punctuation.separator.gosum
 
 github.com/DATA-DOG/go-sqlmock v1.3.3/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q5eFN3EC/SaM=
 // <- variable.gosum
@@ -17,11 +16,11 @@ github.com/DATA-DOG/go-sqlmock v1.3.3/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q
   // <- variable.gosum
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.gosum
 //                             ^^^^^^ string.version.gosum
-//                                   ^^^^^^^ string.gosum
+//                                   ^ punctuation.separator.gosum
+//                                    ^^^^^^ variable.gosum
 //                                           ^^ entity.name.label.gosum
 //                                             ^ punctuation.separator.gosum
 //                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.gosum
-//                                                                                         ^ punctuation.separator.gosum
 
 github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af h1:pmfjZENx5imkbgOkpRUYLnmbU7UEFbjtDA2hxJ1ichM=
 // <- variable.gosum
@@ -29,11 +28,11 @@ github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af h1:pmfjZENx5i
   // <- variable.gosum
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.gosum
 //                              ^^^^^^ string.version.gosum
-//                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.gosum
+//                                    ^ punctuation.separator.gosum
+//                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.checksum.gosum
 //                                                                 ^^ entity.name.label.gosum
 //                                                                   ^ punctuation.separator.gosum
 //                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.gosum
-//                                                                                                               ^ punctuation.separator.gosum
 
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 // <- variable.gosum
@@ -41,11 +40,13 @@ gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8
   // <- variable.gosum
 // ^^^^^^^^^^^^^^ variable.gosum
 //                ^^^^^^ string.version.gosum
-//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.gosum
+//                      ^ punctuation.separator.gosum
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.checksum.gosum
+//                                                  ^ punctuation.separator.gosum
+//                                                   ^^^^^^ variable.gosum
 //                                                          ^^ entity.name.label.gosum
 //                                                            ^ punctuation.separator.gosum
 //                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.gosum
-//                                                                                                        ^ punctuation.separator.gosum
 
   honnef.co/go/tools v0.0.1-2019.2.3/go.mod h1:a3bituU0lyd329TUQxRnasdCoJDkEUEAqEt0JzvZhAg=
 //^^^^^^^^^^^^^^^^^^ variable.gosum
